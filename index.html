@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Naufal Taris Fadhlurrahman</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            background-color: #e0e0e0;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #666;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        p.email {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .payment-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: #ddd;
+        }
+
+        .payment-info {
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .icon-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .dana-bg { background: #118EEA; }
+        .ovo-bg { background: #4C3494; }
+
+        .details h3 {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .details p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .copy-btn {
+            background: #f0f0f0;
+            color: #555;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #e0e0e0;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="profile-img">
+            <i class="fas fa-user"></i>
+        </div>
+        <h1>Naufal Taris Fadhlurrahman</h1>
+        <p class="email">naufaltarisgogo@gmail.com</p>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 25px;">
+
+        <div class="payment-card" onclick="copyText('089643746538', 'Nomor DANA')">
+            <div class="payment-info">
+                <div class="icon-box dana-bg">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="details">
+                    <h3>DANA</h3>
+                    <p>0896 4374 6538</p>
+                </div>
+            </div>
+            <button class="copy-btn"><i class="far fa-copy"></i> Salin</button>
+        </div>
+
+        <div class="payment-card" onclick="copyText('089643746538', 'Nomor OVO')">
+            <div class="payment-info">
+                <div class="icon-box ovo-bg">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="details">
+                    <h3>OVO</h3>
+                    <p>0896 4374 6538</p>
+                </div>
+            </div>
+            <button class="copy-btn"><i class="far fa-copy"></i> Salin</button>
+        </div>
+
+        <footer>
+            &copy; 2024 Naufal Taris F.
+        </footer>
+    </div>
+
+    <div id="toast">Nomor berhasil disalin!</div>
+
+    <script>
+        function copyText(text, method) {
+            navigator.clipboard.writeText(text).then(function() {
+                var toast = document.getElementById("toast");
+                toast.innerText = method + " berhasil disalin!";
+                toast.className = "show";
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            }, function(err) {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
