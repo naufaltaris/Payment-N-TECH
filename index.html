@@ -3,218 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment - Naufal Taris Fadhlurrahman</title>
+    <title>Scan To Pay - N-TECH STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
+            background-color: #0f172a; 
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden; 
+            color: white;
+            text-align: center;
+        }
+
+        /* --- ANIMASI BACKGROUND (Moving Blur) --- */
+        .ambient-light {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        .light-1 {
+            width: 400px; height: 400px;
+            background: #4361ee;
+            top: -100px; left: -100px;
+            animation-delay: 0s;
+        }
+
+        .light-2 {
+            width: 300px; height: 300px;
+            background: #7209b7;
+            bottom: -50px; right: -50px;
+            animation-delay: -5s;
+        }
+
+        .light-3 {
+            width: 200px; height: 200px;
+            background: #4cc9f0;
+            bottom: 20%; left: 20%;
+            animation-duration: 15s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* --- LOGO --- */
+        .logo-container {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .logo-container img {
+            width: 75%;
+            height: auto;
         }
 
         .container {
-            background: white;
             width: 100%;
             max-width: 400px;
-            padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            background-color: #e0e0e0;
-            border-radius: 50%;
-            margin: 0 auto 20px;
+            padding: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: #666;
-            border: 4px solid #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        p.email {
-            font-size: 0.9rem;
-            color: #777;
-            margin-bottom: 30px;
-        }
-
-        .payment-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-            cursor: pointer;
             position: relative;
-            overflow: hidden;
+            z-index: 2;
         }
 
-        .payment-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-color: #ddd;
+        .title {
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(to bottom, #ffffff, #b3c7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
         }
 
-        .payment-info {
-            display: flex;
-            align-items: center;
-            text-align: left;
+        /* --- QR FRAME --- */
+        .qr-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
-        .icon-box {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
+        .qr-frame {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            width: 260px; 
+            height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            color: white;
-            font-size: 1.2rem;
         }
 
-        .dana-bg { background: #118EEA; }
-        .ovo-bg { background: #4C3494; }
-
-        .details h3 {
-            font-size: 1rem;
-            color: #333;
+        .qr-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
-        .details p {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .copy-btn {
-            background: #f0f0f0;
-            color: #555;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: #e0e0e0;
-        }
-
-        /* Toast Notification */
-        #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
+        /* --- TOMBOL LINK N-TECH STORE (BARU) --- */
+        .shop-link-btn {
+            display: inline-flex; /* Agar icon dan teks sejajar */
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            
+            text-decoration: none; /* Hilangkan garis bawah link */
             color: #fff;
-            text-align: center;
+            
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s;
+            padding: 12px 40px;
+            
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
         }
 
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
+        /* Efek Hover saat mouse diarahkan */
+        .shop-link-btn:hover {
+            background: rgba(37, 211, 102, 0.2); /* Hijau transparan ala WA */
+            border-color: #25d366; /* Hijau WA */
+            transform: scale(1.05); /* Sedikit membesar */
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
         }
 
-        footer {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            color: #aaa;
+        /* --- TOMBOL DOWNLOAD --- */
+        .download-btn {
+            text-decoration: none;
+            color: #0f172a;
+            background: #fff;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
+
+        .download-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="profile-img">
-            <i class="fas fa-user"></i>
-        </div>
-        <h1>Naufal Taris Fadhlurrahman</h1>
-        <p class="email">naufaltarisgogo@gmail.com</p>
+    <div class="ambient-light light-1"></div>
+    <div class="ambient-light light-2"></div>
+    <div class="ambient-light light-3"></div>
 
-        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 25px;">
-
-        <div class="payment-card" onclick="copyText('089643746538', 'Nomor DANA')">
-            <div class="payment-info">
-                <div class="icon-box dana-bg">
-                    <i class="fas fa-wallet"></i>
-                </div>
-                <div class="details">
-                    <h3>DANA</h3>
-                    <p>0896 4374 6538</p>
-                </div>
-            </div>
-            <button class="copy-btn"><i class="far fa-copy"></i> Salin</button>
-        </div>
-
-        <div class="payment-card" onclick="copyText('089643746538', 'Nomor OVO')">
-            <div class="payment-info">
-                <div class="icon-box ovo-bg">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div class="details">
-                    <h3>OVO</h3>
-                    <p>0896 4374 6538</p>
-                </div>
-            </div>
-            <button class="copy-btn"><i class="far fa-copy"></i> Salin</button>
-        </div>
-
-        <footer>
-            &copy; 2024 Naufal Taris F.
-        </footer>
+    <div class="logo-container">
+        <img src="https://i.postimg.cc/zD0Nn290/LOGO-TOKO.png" alt="N-Tech Logo">
     </div>
 
-    <div id="toast">Nomor berhasil disalin!</div>
+    <div class="container">
+        <div class="title">
+            SCAN HERE<br>
+            TO PAY
+        </div>
+
+        <div class="qr-wrapper">
+            <div class="qr-frame">
+                <img id="qrisImage" src="https://i.postimg.cc/3x6J2fD3/QRIS-N-TECH.png" alt="QRIS Code">
+            </div>
+        </div>
+
+        <a href="https://chat.whatsapp.com/J4c7ilEaiuGDrd6xDld3lO" target="_blank" class="shop-link-btn">
+            <i class="fab fa-whatsapp"></i> N-TECH STORE
+        </a>
+
+        <button onclick="downloadImage('https://i.postimg.cc/3x6J2fD3/QRIS-N-TECH.png')" class="download-btn">
+            <i class="fas fa-download"></i> Simpan QRIS
+        </button>
+    </div>
 
     <script>
-        function copyText(text, method) {
-            navigator.clipboard.writeText(text).then(function() {
-                var toast = document.getElementById("toast");
-                toast.innerText = method + " berhasil disalin!";
-                toast.className = "show";
-                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-            }, function(err) {
-                console.error('Gagal menyalin: ', err);
-            });
+        async function downloadImage(imageSrc) {
+            try {
+                const image = await fetch(imageSrc);
+                const imageBlog = await image.blob();
+                const imageURL = URL.createObjectURL(imageBlog);
+
+                const link = document.createElement('a');
+                link.href = imageURL;
+                link.download = 'QRIS-N-Tech.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                window.open(imageSrc, '_blank');
+            }
         }
     </script>
 
