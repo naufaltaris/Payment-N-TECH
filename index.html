@@ -8,27 +8,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        * {
+        /* RESET CSS AGAR FIT SCREEN */
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden; /* INI KUNCINYA: Memotong elemen yang melebar */
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        * {
+            box-sizing: border-box; /* Memastikan padding tidak menambah lebar */
             font-family: 'Montserrat', sans-serif;
         }
 
         body {
             min-height: 100vh;
             background-color: #0f172a; 
+            /* Flexbox untuk menengahkan konten */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden; 
             color: white;
             text-align: center;
         }
 
-        /* --- ANIMASI BACKGROUND (Moving Blur) --- */
+        /* --- ANIMASI BACKGROUND (Tetap ada tapi dipotong jika keluar layar) --- */
         .ambient-light {
             position: absolute;
             border-radius: 50%;
@@ -36,41 +43,26 @@
             opacity: 0.6;
             z-index: -1;
             animation: float 10s infinite ease-in-out alternate;
+            pointer-events: none; /* Agar tidak mengganggu sentuhan layar */
         }
 
-        .light-1 {
-            width: 400px; height: 400px;
-            background: #4361ee;
-            top: -100px; left: -100px;
-            animation-delay: 0s;
-        }
-
-        .light-2 {
-            width: 300px; height: 300px;
-            background: #7209b7;
-            bottom: -50px; right: -50px;
-            animation-delay: -5s;
-        }
-
-        .light-3 {
-            width: 200px; height: 200px;
-            background: #4cc9f0;
-            bottom: 20%; left: 20%;
-            animation-duration: 15s;
-        }
+        /* Menggunakan satuan VW (Viewport Width) agar responsif */
+        .light-1 { width: 60vw; height: 60vw; background: #4361ee; top: -10%; left: -20%; animation-delay: 0s; }
+        .light-2 { width: 50vw; height: 50vw; background: #7209b7; bottom: -10%; right: -20%; animation-delay: -5s; }
+        .light-3 { width: 40vw; height: 40vw; background: #4cc9f0; bottom: 20%; left: 20%; animation-duration: 15s; }
 
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
+            100% { transform: translate(20px, 40px) scale(1.1); }
         }
 
         /* --- LOGO --- */
         .logo-container {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
+            top: 20px;
+            right: 20px;
+            width: 50px; /* Perkecil sedikit untuk HP */
+            height: 50px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             display: flex;
@@ -78,19 +70,16 @@
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
             z-index: 10;
         }
 
-        .logo-container img {
-            width: 75%;
-            height: auto;
-        }
+        .logo-container img { width: 70%; height: auto; }
 
+        /* --- CONTAINER UTAMA --- */
         .container {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
+            width: 88%; /* Aman: tidak 100% agar ada jarak kanan-kiri */
+            max-width: 400px; /* Batas lebar di PC */
+            padding: 10px 0; /* Padding atas bawah saja */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -99,11 +88,11 @@
         }
 
         .title {
-            margin-top: 50px;
-            margin-bottom: 30px;
-            font-size: 2.2rem;
+            margin-top: 40px;
+            margin-bottom: 25px;
+            font-size: 1.8rem; /* Ukuran font aman untuk HP */
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.2;
             text-transform: uppercase;
             letter-spacing: 2px;
             background: linear-gradient(to bottom, #ffffff, #b3c7ff);
@@ -112,33 +101,35 @@
             filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
         }
 
-        /* --- QR FRAME --- */
+        /* --- QR AREA --- */
         .qr-wrapper {
+            width: 100%; /* Mengikuti container (88% layar) */
+            aspect-ratio: 1/1; /* Selalu kotak sempurna */
+            max-width: 300px; /* Maksimal lebar QR */
             background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
+            padding: 15px;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .qr-frame {
             background: white;
-            padding: 10px;
             border-radius: 12px;
-            width: 260px; 
-            height: 260px;
+            width: 100%; 
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 8px;
         }
 
-        .qr-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        .qr-frame img { width: 100%; height: 100%; object-fit: contain; }
 
         /* --- TOMBOL LINK N-TECH STORE (BARU) --- */
         .shop-link-btn {
@@ -196,6 +187,15 @@
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
         }
 
+        /* --- RESPONSIVE PC (LAYAR BESAR) --- */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 500px;
+                transform: scale(1.1);
+            }
+            .title { font-size: 2.5rem; }
+            .logo-container { width: 70px; height: 70px; top: 40px; right: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -224,7 +224,7 @@
             <i class="fab fa-whatsapp"></i> N-TECH STORE
         </a>
 
-        <button onclick="downloadImage('https://i.postimg.cc/3x6J2fD3/QRIS-N-TECH.png')" class="download-btn">
+        <button onclick="downloadImage('https://i.postimg.cc/26F1FpvC/qris.jpg')" class="download-btn">
             <i class="fas fa-download"></i> Simpan QRIS
         </button>
     </div>
