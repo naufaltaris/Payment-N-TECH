@@ -8,211 +8,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* RESET CSS AGAR FIT SCREEN */
-        html, body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden; /* INI KUNCINYA: Memotong elemen yang melebar */
-            margin: 0;
-            padding: 0;
-        }
-
-        * {
-            box-sizing: border-box; /* Memastikan padding tidak menambah lebar */
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background-color: #0f172a; 
-            /* Flexbox untuk menengahkan konten */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            color: white;
-            text-align: center;
-        }
-
-        /* --- ANIMASI BACKGROUND (Tetap ada tapi dipotong jika keluar layar) --- */
-        .ambient-light {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            z-index: -1;
-            animation: float 10s infinite ease-in-out alternate;
-            pointer-events: none; /* Agar tidak mengganggu sentuhan layar */
-        }
-
-        /* Menggunakan satuan VW (Viewport Width) agar responsif */
-        .light-1 { width: 60vw; height: 60vw; background: #4361ee; top: -10%; left: -20%; animation-delay: 0s; }
+        /* --- CSS SAMA SEPERTI SEBELUMNYA (DIPERSINGKAT UNTUK FOKUS) --- */
+        html, body { width: 100%; max-width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+        * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { min-height: 100vh; background-color: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; color: white; text-align: center; }
+        
+        /* Animasi Background */
+        .ambient-light { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: -1; animation: float 10s infinite ease-in-out alternate; pointer-events: none; }
+        .light-1 { width: 60vw; height: 60vw; background: #4361ee; top: -10%; left: -20%; }
         .light-2 { width: 50vw; height: 50vw; background: #7209b7; bottom: -10%; right: -20%; animation-delay: -5s; }
         .light-3 { width: 40vw; height: 40vw; background: #4cc9f0; bottom: 20%; left: 20%; animation-duration: 15s; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20px, 40px) scale(1.1); } }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(20px, 40px) scale(1.1); }
-        }
+        /* Logo */
+        .logo-container { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); z-index: 10; overflow: hidden; }
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; } /* Full cover agar rapi */
 
-        /* --- LOGO --- */
-        .logo-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px; /* Perkecil sedikit untuk HP */
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            z-index: 10;
-        }
+        /* Container */
+        .container { width: 88%; max-width: 400px; padding: 10px 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
+        .title { margin-top: 40px; margin-bottom: 25px; font-size: 1.8rem; font-weight: 900; line-height: 1.2; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(to bottom, #ffffff, #b3c7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3)); }
 
-        .logo-container img { width: 70%; height: auto; }
+        /* QR Area */
+        .qr-wrapper { width: 100%; aspect-ratio: 1/1; max-width: 300px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); transition: all 0.4s ease; display: flex; justify-content: center; align-items: center; }
+        .qr-wrapper:hover { box-shadow: 0 25px 60px rgba(15, 23, 60, 0.7); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.4); }
+        .qr-frame { background: white; border-radius: 12px; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden; }
+        .qr-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-        /* --- CONTAINER UTAMA --- */
-        .container {
-            width: 88%; /* Aman: tidak 100% agar ada jarak kanan-kiri */
-            max-width: 400px; /* Batas lebar di PC */
-            padding: 10px 0; /* Padding atas bawah saja */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
+        /* Tombol */
+        .shop-link-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; padding: 12px 40px; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); margin-bottom: 25px; transition: all 0.3s ease; }
+        .shop-link-btn:hover { background: rgba(37, 211, 102, 0.2); border-color: #25d366; transform: scale(1.05); box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
+        .download-btn { text-decoration: none; color: #0f172a; background: #fff; padding: 14px 30px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); transition: all 0.3s ease; border: none; cursor: pointer; }
+        .download-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
 
-        .title {
-            margin-top: 40px;
-            margin-bottom: 25px;
-            font-size: 1.8rem; /* Ukuran font aman untuk HP */
-            font-weight: 900;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(to bottom, #ffffff, #b3c7ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
-        }
-
-        /* --- QR AREA (DIPERBARUI) --- */
-        .qr-wrapper {
-            width: 100%; /* Mengikuti container (88% layar) */
-            aspect-ratio: 1/1; /* Selalu kotak sempurna */
-            max-width: 300px; /* Maksimal lebar QR */
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            margin-bottom: 25px;
-            
-            /* Shadow awal (lebih kecil) */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            
-            /* Transisi halus untuk efek hover */
-            transition: all 0.4s ease;
-            
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* EFEK HOVER PADA QR WRAPPER (BARU) */
-        .qr-wrapper:hover {
-            /* Shadow "hitam kebiruan" yang lebih besar dan menyala saat dihover */
-            /* rgba(15, 23, 60, 0.6) adalah warna biru tua gelap */
-            box-shadow: 0 25px 60px rgba(15, 23, 60, 0.7);
-            
-            /* Sedikit mengangkat elemen agar terlihat lebih dinamis */
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .qr-frame {
-            background: white;
-            border-radius: 12px;
-            width: 100%; 
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-        }
-
-        .qr-frame img { width: 100%; height: 100%; object-fit: contain; }
-
-        /* --- TOMBOL LINK N-TECH STORE (BARU) --- */
-        .shop-link-btn {
-            display: inline-flex; /* Agar icon dan teks sejajar */
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            
-            text-decoration: none; /* Hilangkan garis bawah link */
-            color: #fff;
-            
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            padding: 12px 40px;
-            
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-        }
-
-        /* Efek Hover saat mouse diarahkan */
-        .shop-link-btn:hover {
-            background: rgba(37, 211, 102, 0.2); /* Hijau transparan ala WA */
-            border-color: #25d366; /* Hijau WA */
-            transform: scale(1.05); /* Sedikit membesar */
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
-        }
-
-        /* --- TOMBOL DOWNLOAD --- */
-        .download-btn {
-            text-decoration: none;
-            color: #0f172a;
-            background: #fff;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-        }
-
-        /* --- RESPONSIVE PC (LAYAR BESAR) --- */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 500px;
-                transform: scale(1.1);
-            }
-            .title { font-size: 2.5rem; }
-            .logo-container { width: 70px; height: 70px; top: 40px; right: 40px; }
-        }
+        /* Responsive */
+        @media (min-width: 768px) { .container { max-width: 500px; transform: scale(1.1); } .title { font-size: 2.5rem; } .logo-container { width: 70px; height: 70px; top: 40px; right: 40px; } }
     </style>
 </head>
 <body>
@@ -222,7 +51,7 @@
     <div class="ambient-light light-3"></div>
 
     <div class="logo-container">
-        <img src="https://i.postimg.cc/5yNphYhj/LOGO-TOKO-copy.png" alt="N-Tech Logo">
+        <img src="image/circle-logo.png" alt="N-Tech Logo" onerror="this.style.display='none'">
     </div>
 
     <div class="container">
@@ -233,7 +62,7 @@
 
         <div class="qr-wrapper">
             <div class="qr-frame">
-                <img id="qrisImage" src="https://i.postimg.cc/3x6J2fD3/QRIS-N-TECH.png" alt="QRIS Code">
+                <img id="qrisImage" src="image/QRIS N TECH.png" alt="QRIS Code">
             </div>
         </div>
 
@@ -241,27 +70,20 @@
             <i class="fab fa-whatsapp"></i> N-TECH STORE
         </a>
 
-        <button onclick="downloadImage('https://i.postimg.cc/kGgW2MHz/qris.jpg')" class="download-btn">
+        <button onclick="downloadLocalImage()" class="download-btn">
             <i class="fas fa-download"></i> Simpan QRIS
         </button>
     </div>
 
     <script>
-        async function downloadImage(imageSrc) {
-            try {
-                const image = await fetch(imageSrc);
-                const imageBlog = await image.blob();
-                const imageURL = URL.createObjectURL(imageBlog);
-
-                const link = document.createElement('a');
-                link.href = imageURL;
-                link.download = 'QRIS-N-Tech.png';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } catch (error) {
-                window.open(imageSrc, '_blank');
-            }
+        // Fungsi download yang jauh lebih sederhana & stabil untuk file lokal
+        function downloadLocalImage() {
+            const link = document.createElement('a');
+            link.href = 'image/Qris Download.jpg'; // Path ke file lokal
+            link.download = 'Qris Download.jpg'; // Nama file saat didownload
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 
