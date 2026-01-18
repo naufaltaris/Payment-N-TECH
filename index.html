@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan To Pay - N-TECH STORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- CSS SAMA SEPERTI SEBELUMNYA (DIPERSINGKAT UNTUK FOKUS) --- */
+        /* --- CSS DASAR --- */
         html, body { width: 100%; max-width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { min-height: 100vh; background-color: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; color: white; text-align: center; }
+        body { min-height: 100vh; background-color: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; color: white; text-align: center; padding-bottom: 50px; }
         
         /* Animasi Background */
         .ambient-light { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: -1; animation: float 10s infinite ease-in-out alternate; pointer-events: none; }
@@ -22,9 +22,9 @@
 
         /* Logo */
         .logo-container { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); z-index: 10; overflow: hidden; }
-        .logo-container img { width: 100%; height: 100%; object-fit: cover; } /* Full cover agar rapi */
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Container */
+        /* Container Utama */
         .container { width: 88%; max-width: 400px; padding: 10px 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
         .title { margin-top: 40px; margin-bottom: 25px; font-size: 1.8rem; font-weight: 900; line-height: 1.2; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(to bottom, #ffffff, #b3c7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3)); }
 
@@ -37,8 +37,113 @@
         /* Tombol */
         .shop-link-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; padding: 12px 40px; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); margin-bottom: 25px; transition: all 0.3s ease; }
         .shop-link-btn:hover { background: rgba(37, 211, 102, 0.2); border-color: #25d366; transform: scale(1.05); box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
-        .download-btn { text-decoration: none; color: #0f172a; background: #fff; padding: 14px 30px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); transition: all 0.3s ease; border: none; cursor: pointer; }
+        .download-btn { text-decoration: none; color: #0f172a; background: #fff; padding: 14px 30px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); transition: all 0.3s ease; border: none; cursor: pointer; margin-bottom: 30px; }
         .download-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+
+        /* --- CSS BARU UNTUK PAYMENT LIST --- */
+        .manual-payment-container {
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .payment-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            position: relative;
+            transition: background 0.3s;
+        }
+        
+        .payment-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .bank-name {
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: #4cc9f0; /* Warna biru neon */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .account-number-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .account-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.2s;
+            padding: 5px;
+        }
+        
+        .copy-btn:hover {
+            color: #25d366;
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
+
+        .account-owner {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+        
+        /* Toast Notification untuk Copy */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
 
         /* Responsive */
         @media (min-width: 768px) { .container { max-width: 500px; transform: scale(1.1); } .title { font-size: 2.5rem; } .logo-container { width: 70px; height: 70px; top: 40px; right: 40px; } }
@@ -73,20 +178,74 @@
         <button onclick="downloadLocalImage()" class="download-btn">
             <i class="fas fa-download"></i> Simpan QRIS
         </button>
-    </div>
+
+        <div class="manual-payment-container">
+            <div class="payment-label">Atau Transfer Manual</div>
+
+            <div class="payment-card">
+                <div class="bank-name">DANA / OVO / ShopeePay</div>
+                <div class="account-number-wrapper">
+                    <span class="account-number">0896 4374 6538</span>
+                    <button class="copy-btn" onclick="copyToClipboard('089643746538')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <div class="account-owner">a.n Naufal Taris Fadhlurrahman</div>
+            </div>
+
+            <div class="payment-card">
+                <div class="bank-name">BCA (Bank Central Asia)</div>
+                <div class="account-number-wrapper">
+                    <span class="account-number">5211 147 602</span>
+                    <button class="copy-btn" onclick="copyToClipboard('5211147602')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <div class="account-owner">a.n Naufal Taris Fadhlurrahman</div>
+            </div>
+
+            <div class="payment-card">
+                <div class="bank-name">BNI (Bank Negara Indonesia)</div>
+                <div class="account-number-wrapper">
+                    <span class="account-number">1394 940 436</span>
+                    <button class="copy-btn" onclick="copyToClipboard('1394940436')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <div class="account-owner">a.n Naufal Taris Fadhlurrahman</div>
+            </div>
+        </div>
+        </div>
+
+    <div id="toast"><i class="fas fa-check-circle"></i> Nomor berhasil disalin!</div>
 
     <script>
-        // Fungsi download yang jauh lebih sederhana & stabil untuk file lokal
+        // Fungsi download (tetap sama)
         function downloadLocalImage() {
             const link = document.createElement('a');
-            link.href = 'image/Qris Download.jpg'; // Path ke file lokal
-            link.download = 'Qris Download.jpg'; // Nama file saat didownload
+            link.href = 'image/Qris Download.jpg'; 
+            link.download = 'Qris Download.jpg'; 
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // Fungsi Baru: Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast();
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        // Fungsi Animasi Toast
+        function showToast() {
+            var x = document.getElementById("toast");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }
     </script>
 
 </body>
 </html>
-
