@@ -9,171 +9,99 @@
     
     <style>
         /* --- CSS DASAR --- */
-        html { 
-    width: 100%; 
-    margin: 0; 
-    padding: 0; 
-}
+        html, body { 
+            width: 100%; 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #030712; /* Background Dasar Sangat Gelap */
+            color: white;
+            overflow-x: hidden;
+        }
 
-body { 
-    width: 100%; 
-    max-width: 100%; 
-    overflow-x: hidden; 
-    margin: 0; 
-    padding: 0; 
-    min-height: 100vh; 
-    background-color: #0f172a; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    position: relative; 
-    color: white; 
-    text-align: center; 
-    padding-bottom: 50px; 
-}
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            text-align: center; 
+            padding-bottom: 50px; 
+        }
+
+        /* Canvas untuk Background Live LED */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0a132e 0%, #030712 100%);
+        }
         
-        /* Animasi Background */
-        .ambient-light { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: -1; animation: float 10s infinite ease-in-out alternate; pointer-events: none; }
+        /* Cahaya Ambient Tipis */
+        .ambient-light { 
+            position: absolute; 
+            border-radius: 50%; 
+            filter: blur(100px); 
+            opacity: 0.15; 
+            z-index: -1; 
+            animation: float 15s infinite ease-in-out alternate; 
+            pointer-events: none; 
+        }
         .light-1 { width: 60vw; height: 60vw; background: #4361ee; top: -10%; left: -20%; }
-        .light-2 { width: 50vw; height: 50vw; background: #7209b7; bottom: -10%; right: -20%; animation-delay: -5s; }
-        .light-3 { width: 40vw; height: 40vw; background: #4cc9f0; bottom: 20%; left: 20%; animation-duration: 15s; }
-        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20px, 40px) scale(1.1); } }
+        .light-2 { width: 50vw; height: 50vw; background: #00d4ff; bottom: -10%; right: -20%; animation-delay: -5s; }
+        
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
 
         /* Logo */
-        .logo-container { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); z-index: 10; overflow: hidden; }
+        .logo-container { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); z-index: 10; overflow: hidden; }
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
 
         /* Container Utama */
         .container { width: 88%; max-width: 400px; padding: 10px 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
-        .title { margin-top: 40px; margin-bottom: 25px; font-size: 1.8rem; font-weight: 900; line-height: 1.2; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(to bottom, #ffffff, #b3c7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3)); }
+        .title { margin-top: 40px; margin-bottom: 25px; font-size: 1.8rem; font-weight: 900; line-height: 1.2; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(to bottom, #ffffff, #4cc9f0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 10px rgba(0,212,255,0.3)); }
 
         /* QR Area */
-        .qr-wrapper { width: 100%; aspect-ratio: 1/1; max-width: 300px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); transition: all 0.4s ease; display: flex; justify-content: center; align-items: center; }
-        .qr-wrapper:hover { box-shadow: 0 25px 60px rgba(15, 23, 60, 0.7); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.4); }
+        .qr-wrapper { width: 100%; aspect-ratio: 1/1; max-width: 300px; background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.3); backdrop-filter: blur(5px); margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); transition: all 0.4s ease; display: flex; justify-content: center; align-items: center; }
+        .qr-wrapper:hover { box-shadow: 0 0 30px rgba(0, 212, 255, 0.4); transform: translateY(-5px); border-color: rgba(0, 212, 255, 0.6); }
         .qr-frame { background: white; border-radius: 12px; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden; }
         .qr-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
         /* Tombol */
-        .shop-link-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50px; padding: 12px 40px; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); margin-bottom: 25px; transition: all 0.3s ease; }
+        .shop-link-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #fff; border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 50px; padding: 12px 40px; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; background: rgba(0, 212, 255, 0.1); backdrop-filter: blur(10px); margin-bottom: 25px; transition: all 0.3s ease; }
         .shop-link-btn:hover { background: rgba(37, 211, 102, 0.2); border-color: #25d366; transform: scale(1.05); box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
-        .download-btn { text-decoration: none; color: #0f172a; background: #fff; padding: 14px 30px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); transition: all 0.3s ease; border: none; cursor: pointer; margin-bottom: 30px; }
-        .download-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
-
-        /* --- CSS BARU UNTUK PAYMENT LIST --- */
-        .manual-payment-container {
-            width: 100%;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
         
-        .payment-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.7;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
+        .download-btn { text-decoration: none; color: #0f172a; background: #fff; padding: 14px 30px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); transition: all 0.3s ease; border: none; cursor: pointer; margin-bottom: 30px; }
+        .download-btn:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(255, 255, 255, 0.4); }
 
-        .payment-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: left;
-            position: relative;
-            transition: background 0.3s;
-        }
+        /* Manual Payment */
+        .manual-payment-container { width: 100%; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .payment-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-bottom: 15px; font-weight: 700; }
+        .payment-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 15px; margin-bottom: 15px; text-align: left; transition: all 0.3s; }
+        .payment-card:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(0, 212, 255, 0.4); }
+        .bank-name { font-size: 0.75rem; font-weight: 900; color: #4cc9f0; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .account-number-wrapper { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+        .account-number { font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .copy-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 1rem; transition: color 0.2s; padding: 5px; }
+        .copy-btn:hover { color: #00d4ff; }
+        .account-owner { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); font-weight: 500; }
         
-        .payment-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .bank-name {
-            font-size: 0.75rem;
-            font-weight: 900;
-            color: #4cc9f0; /* Warna biru neon */
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .account-number-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-
-        .account-number {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 1px;
-        }
-
-        .copy-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            font-size: 1rem;
-            transition: color 0.2s;
-            padding: 5px;
-        }
-        
-        .copy-btn:hover {
-            color: #25d366;
-        }
-        
-        .copy-btn:active {
-            transform: scale(0.9);
-        }
-
-        .account-owner {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 500;
-        }
-        
-        /* Toast Notification untuk Copy */
-        #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 50px;
-            padding: 12px;
-            position: fixed;
-            z-index: 100;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s;
-        }
-        
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        /* Toast */
+        #toast { visibility: hidden; min-width: 250px; background-color: #00d4ff; color: #000; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 100; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 0.9rem; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
         /* Responsive */
-        @media (min-width: 768px) { .container { max-width: 500px; transform: scale(1.1); } .title { font-size: 2.5rem; } .logo-container { width: 70px; height: 70px; top: 40px; right: 40px; } }
+        @media (min-width: 768px) { .container { max-width: 500px; } .title { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
 
+    <canvas id="bgCanvas"></canvas>
     <div class="ambient-light light-1"></div>
     <div class="ambient-light light-2"></div>
-    <div class="ambient-light light-3"></div>
 
     <div class="logo-container">
         <img src="image/circle-logo.png" alt="N-Tech Logo" onerror="this.style.display='none'">
@@ -235,37 +163,100 @@ body {
                 <div class="account-owner">a.n Naufal Taris Fadhlurrahman</div>
             </div>
         </div>
-        </div>
+    </div>
 
     <div id="toast"><i class="fas fa-check-circle"></i> Nomor berhasil disalin!</div>
 
     <script>
-        // Fungsi download (tetap sama)
+        /* --- BACKGROUND ANIMATION SCRIPT --- */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initBg() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            // Jumlah garis LED
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.speed = Math.random() * 0.4 + 0.1;
+                this.len = Math.random() * 80 + 40;
+                this.vertical = Math.random() < 0.5;
+                this.opacity = Math.random() * 0.4 + 0.1;
+            }
+            update() {
+                if (this.vertical) this.y += this.speed;
+                else this.x += this.speed;
+
+                if (this.x > width || this.y > height) {
+                    this.reset();
+                    if (this.vertical) this.y = -this.len;
+                    else this.x = -this.len;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.lineWidth = 1;
+                if (this.vertical) {
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x, this.y + this.len);
+                } else {
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x + this.len, this.y);
+                }
+                ctx.stroke();
+                
+                // Dot LED di ujung
+                ctx.fillStyle = `rgba(0, 212, 255, ${this.opacity + 0.2})`;
+                ctx.beginPath();
+                ctx.arc(this.vertical ? this.x : this.x + this.len, this.vertical ? this.y + this.len : this.y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', initBg);
+        initBg();
+        animate();
+
+        /* --- FUNGSI UI --- */
         function downloadLocalImage() {
             const link = document.createElement('a');
             link.href = 'image/Qris Download.jpg'; 
-            link.download = 'Qris Download.jpg'; 
+            link.download = 'QRIS_NTECH.jpg'; 
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
-        // Fungsi Baru: Copy to Clipboard
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {
                 showToast();
             }, function(err) {
-                console.error('Could not copy text: ', err);
+                console.error('Gagal menyalin: ', err);
             });
         }
 
-        // Fungsi Animasi Toast
         function showToast() {
             var x = document.getElementById("toast");
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }
     </script>
-
 </body>
 </html>
